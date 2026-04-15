@@ -79,15 +79,27 @@ JSON structure required:
 Startup Profile:
 - Name: {s_name}
 - Sector: {s_sector}
-- Problem score: {team.get('problem_score', 'N/A')}/5
-- Market score: {team.get('market_score', 'N/A')}/5
-- Business model score: {team.get('biz_model_score', 'N/A')}/5
-- Pitch score: {team.get('pitch_score', 'N/A')}/5
 - Overall score: {team.get('overall_score', 'N/A')}/5
+
+Granular Scores (/5):
+- Problem Statement: {team.get('problem_score', 'N/A')}
+- Proposed Solution: {team.get('solution_score', 'N/A')}
+- Unique Value (UVP): {team.get('unique_value_score', 'N/A')}
+- Customer Validation: {team.get('customer_interview_score', 'N/A')}
+- Competitor Awareness: {team.get('competitor_score', 'N/A')}
+- Market Size Awareness: {team.get('market_size_score', 'N/A')}
+- Revenue Model: {team.get('revenue_model_score', 'N/A')}
+- Business Model (BMC): {team.get('bmc_score', 'N/A')}
+- Pitch Deck: {team.get('pitch_deck_score', 'N/A')}
+- Elevator Pitch: {team.get('elevator_score', 'N/A')}
+- Investor Ask Clarity: {team.get('investor_ask_score', 'N/A')}
+
+Context:
 - Revenue stage: {team.get('revenue_stage', 'Unknown')}
 - TRL: {team.get('trl', '?')} / BRL: {team.get('brl', '?')} / CRL: {team.get('crl', '?')}
 - P0 need: {s_p0}
 - Notes: {s_notes}"""
+
 
     def _rule_based(self, team: dict) -> dict:
         scores = {k: team.get(k) for k in 

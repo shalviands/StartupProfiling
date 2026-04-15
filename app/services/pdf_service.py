@@ -27,7 +27,9 @@ class DiagnosisPDF(FPDF):
     def _build(self):
         self._draw_borders()
         self._draw_header()
+        self._draw_band()
         self._draw_score_tiles()
+        self._draw_stats_bar()
         self._draw_pills()
         self._draw_body()
         self._draw_footer()
@@ -86,6 +88,33 @@ class DiagnosisPDF(FPDF):
         self.set_xy(165, 32)
         self._info_field("INTERVIEWER", self.team.get('interviewer', '—'), w=30)
 
+    def _draw_band(self):
+        # Background for band
+        self.set_fill_color(240, 244, 248) # Light blue-grey
+        self.rect(8, 48, 194, 20, 'F')
+        
+        # Problem Col
+        self.set_xy(10, 50)
+        self.set_font('Helvetica', 'B', 7)
+        self.set_text_color(*self.COLORS['navy'])
+        self.cell(90, 4, "PROBLEM BEING ADDRESSED", ln=True)
+        self.set_font('Helvetica', '', 7)
+        self.set_text_color(*self.COLORS['slate'])
+        self.set_x(10)
+        self.multi_cell(90, 3.5, str(self.team.get('problem_statement', '—'))[:180])
+
+        # Solution Col
+        self.set_fill_color(225, 232, 240)
+        self.rect(105, 48, 97, 20, 'F')
+        self.set_xy(107, 50)
+        self.set_font('Helvetica', 'B', 7)
+        self.set_text_color(*self.COLORS['navy'])
+        self.cell(90, 4, "PROPOSED SOLUTION", ln=True)
+        self.set_font('Helvetica', '', 7)
+        self.set_text_color(*self.COLORS['slate'])
+        self.set_x(107)
+        self.multi_cell(90, 3.5, str(self.team.get('solution_description', '—'))[:180])
+
     def _info_field(self, label, value, w=70):
         curr_x = self.get_x()
         curr_y = self.get_y()
@@ -113,9 +142,9 @@ class DiagnosisPDF(FPDF):
         ]
         
         x = 8
-        y = 52
+        y = 72
         w = 38
-        h = 18
+        h = 16
         
         for tile in tiles:
             is_last = tile['key'] == 'overall'
@@ -141,6 +170,40 @@ class DiagnosisPDF(FPDF):
             
             x += w + 1
 
+    def _draw_stats_bar(self):
+        y = 92
+        x = 8
+        w_total = 194
+        self.set_fill_color(235, 243, 252) # Light blue
+        self.rect(x, y, w_total, 12, 'F')
+        self.set_draw_color(43, 108, 176) # Blue border left
+        self.set_line_width(0.8)
+        self.line(x, y, x, y + 12)
+
+        stats = [
+            ('USERS TESTED', team.get('users_tested', 0)),
+            ('INTERACTIONS', team.get('stakeholders_interacted', 0)),
+            ('STAKEHOLDER TYPES', team.get('stakeholder_types', '—')),
+            ('TESTING STATUS', team.get('testing_details', '—'))
+        ]
+        
+        col_w = w_total / 4
+        curr_x = x
+        for i, (label, val) in enumerate(stats):
+            self.set_xy(curr_x, y + 2)
+            self.set_font('Helvetica', 'B', 8)
+            self.set_text_color(43, 108, 176)
+            self.cell(col_w, 4, str(val)[:20], align='C', ln=True)
+            self.set_x(curr_x)
+            self.set_font('Helvetica', '', 6)
+            self.set_text_color(74, 85, 104)
+            self.cell(col_w, 3, label, align='C')
+            curr_x += col_w
+            if i < 3:
+                self.set_draw_color(184, 212, 238)
+                self.set_line_width(0.2)
+                self.line(curr_x, y + 2, curr_x, y + 10)
+
     def _draw_pills(self):
         pills = [
             ('TRL', self.team.get('trl')),
@@ -151,7 +214,7 @@ class DiagnosisPDF(FPDF):
         ]
         
         x = 8
-        y = 75
+        y = 108
         w = 38
         h = 8
         
@@ -173,9 +236,9 @@ class DiagnosisPDF(FPDF):
             x += w + 1
 
     def _draw_body(self):
-        # Body start y ~ 90
+        # Body start y ~ 120
         self.set_draw_color(*self.COLORS['rule'])
-        self.line(8, 88, 202, 88)
+        self.line(8, 120, 202, 120)
         
         # Left Col (x=8, w=92) | Right Col (x=110, w=92)
         self._draw_left_col()
@@ -183,11 +246,11 @@ class DiagnosisPDF(FPDF):
         
         # Vertical divider
         self.set_draw_color(*self.COLORS['rule'])
-        self.line(105, 95, 105, 275)
+        self.line(105, 125, 105, 275)
 
     def _draw_left_col(self):
         x = 8
-        y = 95
+        y = 125
         w = 92
         
         # Section C
@@ -247,7 +310,7 @@ class DiagnosisPDF(FPDF):
 
     def _draw_right_col(self):
         x = 110
-        y = 95
+        y = 125
         w = 92
         
         # Section A
