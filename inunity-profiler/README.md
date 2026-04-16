@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# InUnity Profiler — Next.js Application 🚀
 
-## Getting Started
+This is the core Next.js 14 application for the InUnity Startup Diagnosis Profiler.
 
-First, run the development server:
+## 🛠 Tech Stack
+- **Next.js 14** (App Router)
+- **TypeScript**
+- **Supabase** (Auth & Database)
+- **Zustand** (Global UI/Team State)
+- **TanStack Query** (Server State/Synchronization)
+- **Tailwind CSS** (Premium Design System)
+- **OpenRouter** (AI Diagnosis Engine)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 📡 Deployment Readiness (Vercel)
+This project is configured for **high-reliability deployment**:
+- **Next.js 14.2.x**: Stabilized for `@react-pdf/renderer` compatibility.
+- **next.config.mjs**: Includes webpack aliases for building browser-only libraries.
+- **middleware.ts**: Centralized auth logic with pulse health check bypass.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📋 Scripts
+- `npm run dev`: Start development server.
+- `npm run build`: Production build (Optimized).
+- `npm run type-check`: Full TypeScript validation.
+- `npm run lint`: ESLint audit.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📂 Architecture Note
+- `src/app/api`: All route handlers for team management and AI analysis.
+- `src/components/form`: The 7-section diagnostic logic.
+- `src/lib/ai`: Multi-model fallback logic for reliable diagnosis.
+- `src/utils/scores.ts`: Centralized logic for scoring fundamentals.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+For full project documentation, see the [main README](../README.md).
